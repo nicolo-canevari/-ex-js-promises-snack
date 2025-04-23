@@ -98,30 +98,35 @@ getPost(1)
 //     .catch(error => console.error(error));
 
 
-// BONUS => // Funzione HOF che crea una funzione lanciaDado con memoria del risultato precedente
+// BONUS => Funzione HOF che crea una funzione lanciaDado con memoria del risultato precedente
 
 function creaLanciaDado() {
     // Variabile chiusa nella closure per ricordare l'ultimo lancio
     let ultimoRisultato = null;
 
+    // La funzione ritornata è quella che simula il lancio del dado
     return function lanciaDado() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
+                // Numero casuale tra 0 e 1
                 const erroreProbabilita = Math.random();
 
+                // Con una probabilità del 20% (0.2), il dado si "incastra"
                 if (erroreProbabilita < 0.2) {
                     reject("❌ Il dado si è incastrato!");
                 } else {
+                    // Genera un numero intero casuale tra 1 e 6
                     const risultato = Math.floor(Math.random() * 6) + 1;
 
-                    // Verifica se è uguale all'ultimo lancio
+                    // Se il risultato è uguale al lancio precedente, stampa un messaggio
                     if (risultato === ultimoRisultato) {
                         console.log("🎉 Incredibile! Stesso numero due volte di fila!");
                     }
 
-                    // Salvia il risultato per il prossimo lancio
+                    // Aggiornail valore dell'ultimo lancio
                     ultimoRisultato = risultato;
 
+                    // Risolve la Promise con il messaggio del lancio riuscito
                     resolve(`🎲 È uscito: ${risultato}`);
                 }
             }, 3000);
